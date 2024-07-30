@@ -36,6 +36,7 @@
 						$n_status = $_POST['status'];
 						$n_gender = $_POST['gender'];
 						$n_desc = $_POST['description'];
+						$n_month = $_POST['month'];
 
 
 						$res1_name = basename($_FILES['pigphoto']['name']);
@@ -62,7 +63,7 @@
 
 
 
-					$insert = $db->query("INSERT INTO pigs(pigno,weight,arrived,breed_id, classification_id, feed_id, vitamins_id,remark,health_status,img,gender,description) VALUES('$n_pigno','$n_weight','$n_arrived','$n_breed','$n_classification', '$n_feed', '$n_vitamins', '$n_remark','$n_status','$path1','$n_gender','$n_desc') ");
+					$insert = $db->query("INSERT INTO pigs(pigno,weight,arrived,breed_id, classification_id, feed_id, vitamins_id,remark,health_status,img,gender,description,month) VALUES('$n_pigno','$n_weight','$n_arrived','$n_breed','$n_classification', '$n_feed', '$n_vitamins', '$n_remark','$n_status','$path1','$n_gender','$n_desc', '$n_month') ");
 
 					if ($insert) { ?>
 						<!-- <div class="alert alert-success alert-dismissable">
@@ -75,7 +76,7 @@
 								toast: true,
 								position: "top-end",
 								showConfirmButton: false,
-								timer: 3000,
+								timer: 1500,
 								timerProgressBar: true,
 								didOpen: (toast) => {
 									toast.onmouseenter = Swal.stopTimer;
@@ -100,7 +101,7 @@
 								toast: true,
 								position: "top-end",
 								showConfirmButton: false,
-								timer: 3000,
+								timer: 1500,
 								timerProgressBar: true,
 								didOpen: (toast) => {
 									toast.onmouseenter = Swal.stopTimer;
@@ -142,6 +143,20 @@
 								<input type="text" name="arrived" class="form-control datepicker" required>
 							</div>
 						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">Month</label>
+						<select name="month" class="form-control" required>
+							<?php 
+								for ($i = 1; $i <= 1000 ; $i++) { 
+									?>
+									<option value="<?= $i ?>"><?= $i ?> month</option>
+									<?php 
+								}
+							?>
+							
+						</select>
 					</div>
 
 					<div class="form-group">

@@ -23,6 +23,7 @@
        $f_id = $obj->feed_id;
        $v_id = $obj->vitamins_id;
 	   $health = $obj->health_status;
+       $arrived = $obj->arrived;
 
 	     $k = $db->query("SELECT * FROM breed WHERE id = '$b_id' ");
 		 $k = $db->query("SELECT * FROM classification WHERE id = '$c_id' ");
@@ -37,6 +38,32 @@
        	 }
  	}
  }
+
+ function countMonths($startDate, $endDate) {
+    // Convert string dates to DateTime objects
+    $start = new DateTime($startDate);
+    $end = new DateTime($endDate);
+
+    // Include end date in the range
+    $end->modify('+1 month');
+
+    // Define interval as 1 month
+    $interval = new DateInterval('P1M');
+
+    // Generate a date period
+    $dateRange = new DatePeriod($start, $interval, $end);
+
+    // Count the number of months in the period
+    $months = iterator_count($dateRange) - 1; // Subtract 1 to exclude end date
+
+    return $months;
+}
+
+$get = $db->query("SELECT p.weight,p.pigno,s.date_sold,s.reason,s.buyer,s.price,p.id,s.money FROM sold s LEFT JOIN pigs p ON s.pig_id = p.id");
+$res = $get->fetch(PDO::FETCH_OBJ);
+
+$startDate = $arrived;
+$endDate = $res->date_sold;
 
 ?>
 <!-- !PAGE CONTENT! -->
@@ -56,22 +83,24 @@
 </style>
  <div class="w3-container" style="padding-top:22px">
 	<?php 
-        $get = $db->query("SELECT p.weight,p.pigno,s.date_sold,s.reason,s.buyer,s.price,p.id,s.money FROM sold s LEFT JOIN pigs p ON s.pig_id = p.id");
-        $res = $get->fetch(PDO::FETCH_OBJ);
+       
     ?>
 
-    <div class="w3-padding text-center" style="border: 1px #000 dashed;">
+    <div class="w3-padding text-center" style="border: 1px #000 dashed; position: relative;">
+        <img src="img/pig.png" class="w3-circle w3-margin-right" style="width:46px; position: absolute; top: 0; left: 0; margin: 20px;">
         <h4 style="font-weight: bolder;">JSV Piggery</h4>
         <p>Date: <?= date('m-d-Y', strtotime($res->date_sold)) ?></p>
         <p>Buyer: <?= $res->buyer ?></p>
         <table class="w3-table w3-border w3-border-black w3-margin-top">
             <tr>
                 <td>PIG NO.</td>
+                <th>MONTH</th>
                 <td>WEIGHT</td>
                 <td>PRICE</td>
             </tr>
             <tr>
                 <td><?= $res->pigno ?></td>
+                <td><?= countMonths($startDate, $endDate) ?></td>
                 <td><?= $res->weight ?></td>
                 <td><?= number_format($res->price, 2) ?></td>
             </tr>

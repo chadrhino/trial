@@ -15,12 +15,18 @@
 				   <input type="email" name="username" class="form-control input-sm" required>
 			    </div>
 
-			    <div class="form-group">
+			    <div class="form-group" >
 				   <label class="control-label">Admin Password</label>
-				   <input type="password" name="password" class="form-control input-sm" required>
+				   <div style="position: relative;">
+           <input type="password" name="password" class="form-control input-sm" required>
+           <i class="fa fa-eye" id="showPass" style="position: absolute; top: 7px; right:10px;cursor: pointer;"></i>
+           </div>
 			    </div>
                 
-			    <button name="submit" type="submit" class="btn btn-md btn-dark">Log in</button>
+			    <div style="display: flex; gap: 20px; justify-content: space-between; align-items: center;">
+          <button name="submit" type="submit" class="btn btn-md btn-dark">Log in</button>
+          <a href="forgot.php">Forgot Password</a>
+          </div>
 			</form>
 
 			<?php
@@ -67,6 +73,22 @@
 		</div>
 	</div>
 </div>
+
+<script>
+  let password = document.querySelector("input[name='password']")
+  let showPass = document.getElementById("showPass")
+
+  showPass.onclick = () =>{
+    if (password.getAttribute("type") == 'password') {
+      password.setAttribute("type", "text")
+      showPass.classList.replace("fa-eye", "fa-eye-slash")
+    }else{
+      password.setAttribute("type", "password")
+      showPass.classList.replace("fa-eye-slash","fa-eye")
+    }
+  }
+
+</script>
 
 
 <?php include 'theme/foot.php'; ?>

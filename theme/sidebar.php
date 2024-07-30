@@ -24,16 +24,16 @@ $active = "w3-blue";
   </div>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i> Close Menu</a>
-    <a href="dashboard.php" class="w3-bar-item w3-button w3-padding <?= $url == '/dashboard.php' ? $active : '' ?>"><i class="fa fa-home fa-fw"></i> Dashboard</a>
-    <a href="manage-pig.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-pig.php' || $url == '/add-pig.php' || str_contains($url ,'/edit-pig.php') || str_contains($url ,'/quarantine.php') || str_contains($url ,'/sold.php') ? $active : '' ?>"><i class="fa fa-eye fa-fw"></i> Manage Pigs</a>
-    <a href="manage-breed.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-breed.php') ? $active : '' ?>"><i class="fa fa-reorder fa-fw"></i> Manage Breeds</a>
-    <a href="manage-classification.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-classification.php' ? $active : '' ?>"><i class="fa fa-sort fa-fw"></i> Manage Classification</a>
-    <a href="manage-feed.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-feed.php') ? $active : '' ?>"><i class="fa fa-stack-overflow fa-fw"></i> Manage Feeds</a>
-    <a href="manage-vitamins.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-vitamins.php') ? $active : '' ?>"><i class="fa fa-medkit fa-fw"></i> Manage Vitamins</a>
-    <a href="manage-quarantine.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-quarantine.php' ? $active : '' ?>"><i class="fa fa-lock fa-fw"></i> Quarantine</a>
-    <a href="manage-sold.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-sold.php' || str_contains($url ,'/receipt.php') ? $active : '' ?>"><i class="fa fa-diamond fa-fw"></i> Sold</a>
-    <a href="manage-sales.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-sales.php' ? $active : '' ?>"><i class="fa fa-bar-chart fa-fw"></i> Sales</a>
-    <a href="logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-power-off fa-fw"></i> Log out</a><br><br>
+    <a href="dashboard.php" class="w3-bar-item w3-button w3-padding <?= $url == '/dashboard.php' ? $active : '' ?>"><i class="fa fa-home fa-fw" style="color: #c6322d !important;"></i> Dashboard</a>
+    <a href="manage-pig.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-pig.php' || $url == '/add-pig.php' || str_contains($url ,'/edit-pig.php') || str_contains($url ,'/quarantine.php') || str_contains($url ,'/sold.php') ? $active : '' ?>"><i class="fa fa-eye fa-fw" style="color: #c6322d !important;"></i> Manage Pigs</a>
+    <a href="manage-breed.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-breed.php') ? $active : '' ?>"><i class="fa fa-reorder fa-fw" style="color: #c6322d !important;"></i> Manage Breeds</a>
+    <a href="manage-classification.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-classification.php' ? $active : '' ?>"><i class="fa fa-sort fa-fw" style="color: #c6322d !important;"></i> Manage Classification</a>
+    <a href="manage-feed.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-feed.php') ? $active : '' ?>"><i class="fa fa-stack-overflow fa-fw" style="color: #c6322d !important;"></i> Manage Feeds</a>
+    <a href="manage-vitamins.php" class="w3-bar-item w3-button w3-padding <?= str_contains($url, '/manage-vitamins.php') ? $active : '' ?>"><i class="fa fa-medkit fa-fw" style="color: #c6322d !important;"></i> Manage Vitamins</a>
+    <a href="manage-quarantine.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-quarantine.php' ? $active : '' ?>"><i class="fa fa-lock fa-fw" style="color: #c6322d !important;"></i> Quarantine</a>
+    <a href="manage-sold.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-sold.php' || str_contains($url ,'/receipt.php') ? $active : '' ?>"><i class="fa fa-diamond fa-fw" style="color: #c6322d !important;"></i> Sold</a>
+    <a href="manage-sales.php" class="w3-bar-item w3-button w3-padding <?= $url == '/manage-sales.php' ? $active : '' ?>"><i class="fa fa-bar-chart fa-fw" style="color: #c6322d !important;"></i> Sales</a>
+    <a href="logout.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-power-off fa-fw" style="color: #c6322d !important;"></i> Log out</a><br><br>
   </div>
 </nav>
 

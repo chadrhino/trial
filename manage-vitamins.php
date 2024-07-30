@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
 				toast: true,
 				position: "top-end",
 				showConfirmButton: false,
-				timer: 3000,
+				timer: 1500,
 				timerProgressBar: true,
 				didOpen: (toast) => {
 					toast.onmouseenter = Swal.stopTimer;
@@ -57,7 +57,7 @@ if (isset($_POST['update'])) {
 				toast: true,
 				position: "top-end",
 				showConfirmButton: false,
-				timer: 3000,
+				timer: 1500,
 				timerProgressBar: true,
 				didOpen: (toast) => {
 					toast.onmouseenter = Swal.stopTimer;
@@ -93,7 +93,7 @@ if (isset($_GET['delete'])) {
 				toast: true,
 				position: "top-end",
 				showConfirmButton: false,
-				timer: 3000,
+				timer: 1500,
 				timerProgressBar: true,
 				didOpen: (toast) => {
 					toast.onmouseenter = Swal.stopTimer;
@@ -162,7 +162,7 @@ if (isset($_GET['delete'])) {
 											<span class="caret"></span></button>
 										<ul class="dropdown-menu">
 											<li><a href="manage-vitamins.php?edit&id=<?php echo $n->id ?>"><i class="fa fa-edit"></i> Edit</a></li>
-											<li><a onclick="return confirm('Continue delete vitamins ?')" href="?delete&id=<?php echo $n->id ?>"><i class="fa fa-trash"></i> Delete</a></li>
+											<li><a onclick="return showDelete()" href="#"><i class="fa fa-trash"></i> Delete</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -227,5 +227,21 @@ if (isset($_GET['delete'])) {
 	</div>
 
 </div>
+
+<script>
+	function showDelete() {
+    Swal.fire({
+      title: "Do you want to delete this to vitamin?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        window.location.href = "?delete&id=<?php echo $n->id ?>"
+      }
+    });
+  }
+</script>
 
 <?php include 'theme/foot.php'; ?>

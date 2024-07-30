@@ -7,89 +7,275 @@
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
   <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container dont-print" style="padding-top:22px">
     <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
   </header>
- 
- <?php include 'inc/data.php'; ?>
- <div class="w3-container" style="padding-top:22px">
- <div class="w3-row">
- 	<h2>Recent Pigs</h2>
- <div class=" table-responsive">
- 	<table class="table table-hover" id="table">
- 		<thead>
- 			<tr>
- 				<th>S/N</th>
- 				<th>Pig No.</th>
- 				<th>Breed</th>
-				<th>Classification</th>
-				<th>Feed</th>
-				<th>Vitamins</th>
- 				<th>Weight</th>
- 				<th>Gender</th>
- 				<th>Arrived</th>
-				 <th>Remark</th>
- 				<th>Desc.</th>
- 			</tr>
- 		</thead>
- 		<tbody>
- 		<?php
-$qpi = $db->query("SELECT * FROM pigs ORDER BY id");
-$result = $qpi->fetchAll(PDO::FETCH_OBJ);
-$c = $qpi->rowCount();
 
-foreach ($result as $j) {
-    $pigname = $j->pigno;
-    $b_id = $j->breed_id;
-    $c_id = $j->classification_id;
-    $f_id = $j->feed_id;
-    $v_id = $j->vitamins_id;
-    $weight = $j->weight;
-    $gender = $j->gender;
-    $remark = $j->remark;
-    $description = $j->description;
-    $arr = $j->arrived;
+  <?php include 'inc/data.php'; ?>
+  <div class="w3-container dont-print" style="padding-top:22px">
+    <canvas id="myChart" style="width:100%;"></canvas>
+  </div>
 
-    $breed_query = $db->query("SELECT name FROM breed WHERE id = '$b_id'");
-    $breed_result = $breed_query->fetch(PDO::FETCH_OBJ);
-    $bname = ($breed_result) ? $breed_result->name : '';
+  <div class="w3-container" style="padding-top:22px" id="history">
+    <h3 class="dont-print"><b>Pig In & Out History</b></h3>
 
-    $classification_query = $db->query("SELECT name FROM classification WHERE id = '$c_id'");
-    $classification_result = $classification_query->fetch(PDO::FETCH_OBJ);
-    $cname = ($classification_result) ? $classification_result->name : '';
-  
-    $feed_query = $db->query("SELECT name FROM feed WHERE id = '$f_id'");
-    $feed_result = $feed_query->fetch(PDO::FETCH_OBJ);
-    $fname = ($feed_result) ? $feed_result->name : '';
+    <form method="post" class="w3-margin-bottom dont-print" >
+      <label>Select Month</label>
+      <input type="month" class="form-control" name="month" min="<?= date('Y-m') ?>" value="<?= isset($_POST['month']) ? $_POST['month'] : '' ?>">
 
-    $vitamins_query = $db->query("SELECT name FROM vitamins WHERE id = '$v_id'");
-    $vitamins_result = $vitamins_query->fetch(PDO::FETCH_OBJ);
-    $vname = ($vitamins_result) ? $vitamins_result->name : '';
+      <div class="w3-margin-top">
+        <label>Select to Show</label>
+        <div style="display: flex; gap: 20px;">
+          <div>
+            <input type="radio" name="type" value="1" <?php 
+              if (isset($_POST['month'])) {
+                if ($_POST['type'] == 1) {
+                  echo 'checked';
+                }
+              }else{
+                echo 'checked';
+              }
+            ?> >
+            In
+          </div>
+          <div>
+            <input type="radio" name="type" value="2" <?php 
+              if (isset($_POST['month'])) {
+                if ($_POST['type'] == 2) {
+                  echo 'checked';
+                }
+              }
+            ?> >
+            Out
+          </div>
+        </div>
+      </div>
 
-    ?>
-    <tr>
-        <td><?php echo $j->id; ?></td>
-        <td><?php echo $pigname; ?></td>
-        <td><?php echo $bname; ?></td>
-        <td><?php echo $cname; ?></td>
-        <td><?php echo $fname; ?></td>
-        <td><?php echo $vname; ?></td>
-        <td><?php echo $weight; ?></td>
-        <td><?php echo $gender; ?></td>
-        <td><?php echo $arr; ?></td>
-        <td><?php echo $remark; ?></td>
-        <td><?php echo $description; ?></td>
-    </tr>
+      <div style="text-align: right;">
+        <button type="submit" class="btn btn-primary w3-margin-top">Show</button>
+      </div>
+    </form>
+
+    <hr class="dont-print">
+
     <?php
-}
-?>
+    if (isset($_POST['month'])) {
+      $month = date('m', strtotime($_POST['month']));
+      $year = date('Y', strtotime($_POST['month']));
+      $type = $_POST['type'];
+      ?>
+      <script>
+        window.location.href = "#history"
+      </script>
+      <?php 
+      if ($type == 1) {
+        ?>
+       <h3 class="w3-margin-bottom"><b>Pig In History</b></h3>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <th>#</th>
+            <th>Pig No.</th>
+            <th>Breed</th>
+            <th>Weight</th>
+            <th>Gender</th>
+            <th>Date Arrived</th>
+          </thead>
+          <tbody>
+            <?php
+            $i = 1;
+            $get_history_enter = $db->query("SELECT p.*, b.name AS breed FROM pigs p LEFT JOIN breed b ON p.breed_id = b.id WHERE MONTH(p.arrived) = '$month'");
+            if ($get_history_enter->rowCount() > 0) {
+            foreach ($get_history_enter as $entered) {
+            ?>
+              <tr>
+                <td><?= $i++ ?></td>
+                <td><?= $entered['pigno'] ?></td>
+                <td><?= $entered['breed'] ?></td>
+                <td><?= $entered['weight'] ?></td>
+                <td><?= $entered['gender'] ?></td>
+                <td><?= $entered['arrived'] ?></td>
+              </tr>
+            <?php
+            }
+            }else{
+              ?>
+              <tr>
+                <td style="text-align: center;" colspan="7">
+                  No record found
+                </td>
+              </tr>
+              <?php 
+            }
+            ?>
+          </tbody>
+        </table>
+      <?php
+      }else{
+        ?>
+        <h3 class="w3-margin-bottom"><b>Pig Out History</b></h3>
+         <table class="table table-hover table-bordered" >
+      <thead>
+        <th>#</th>
+        <th>Pig No.</th>
+        <th>Breed</th>
+        <th>Weight</th>
+        <th>Buyer</th>
+        <th>Price</th>
+        <th>Cash</th>
+        <th>Date Sold</th>
+      </thead>
+      <tbody>
+        <?php
+        $i = 1;
+        $get_history_out = $db->query("SELECT p.*, b.name AS breed, s.buyer, s.price AS price_sold, s.money, s.date_sold, s.money FROM pigs p INNER JOIN sold s ON p.id = s.pig_id LEFT JOIN breed b ON p.breed_id = b.id WHERE MONTH(s.date_sold) = '$month' ");
+        if ($get_history_out->rowCount() > 0) {
+        foreach ($get_history_out as $out) {
+        ?>
+          <tr>
+            <td><?= $i++ ?></td>
+            <td><?= $out['pigno'] ?></td>
+            <td><?= $out['breed'] ?></td>
+            <td><?= $out['weight'] ?></td>
+            <td><?= $out['buyer'] ?></td>
+            <td><?= number_format($out['price_sold']) ?></td>
+            <td><?= number_format($out['money']) ?></td>
+            <td><?= $out['date_sold'] ?></td>
+          </tr>
+        <?php
+        }
+      }else{
+        ?>
+        <tr>
+          <td style="text-align: center;" colspan="8">
+            No record found
+          </td>
+        </tr>
+        <?php 
+      }
+        ?>
+      </tbody>
+    </table>
+				
+        <?php
+      }
 
- 		</tbody>
- 	</table>
- </div>
- </div>
-</div>
+    } else {
+    ?>
+    <h3 class="w3-margin-bottom"><b>Pig In History</b></h3>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <th>#</th>
+          <th>Pig No.</th>
+          <th>Breed</th>
+          <th>Weight</th>
+          <th>Gender</th>
+          <th>Date Arrived</th>
+        </thead>
+        <tbody>
+          <?php
+          $i = 1;
+          $get_history_enter = $db->query("SELECT p.*, b.name AS breed FROM pigs p LEFT JOIN breed b ON p.breed_id = b.id");
+          if ($get_history_enter->rowCount() > 0) {
+            foreach ($get_history_enter as $entered) {
+            ?>
+              <tr>
+                <td><?= $i++ ?></td>
+                <td><?= $entered['pigno'] ?></td>
+                <td><?= $entered['breed'] ?></td>
+                <td><?= $entered['weight'] ?></td>
+                <td><?= $entered['gender'] ?></td>
+                <td><?= $entered['arrived'] ?></td>
+              </tr>
+            <?php
+            }
+            }else{
+              ?>
+              <tr>
+                <td style="text-align: center;" colspan="7">
+                  No record found
+                </td>
+              </tr>
+              <?php 
+            }
+          ?>
+        </tbody>
+      </table>
+    <?php
+    }
+    ?>
 
+<button type="button" onclick="print()" class="btn btn-primary dont-print w3-margin-top" style="float: right;"><i class="fa fa-print"></i> Print</button>
+  </div>
+
+  <!-- <div class="w3-container" style="padding-top:22px">
+    <h3><b>Pig-Out History</b></h3>
+    <table id="table" class="table table-hover table-bordered" >
+      <thead>
+        <th>#</th>
+        <th>Pig No.</th>
+        <th>Breed</th>
+        <th>Weight</th>
+        <th>Buyer</th>
+        <th>Price</th>
+        <th>Cash</th>
+        <th>Date Sold</th>
+      </thead>
+      <tbody>
+        <?php
+        $i = 1;
+        $get_history_out = $db->query("SELECT p.*, b.name AS breed, s.buyer, s.price AS price_sold, s.money, s.date_sold FROM pigs p INNER JOIN sold s ON p.id = s.pig_id LEFT JOIN breed b ON p.breed_id = b.id ");
+        foreach ($get_history_out as $out) {
+        ?>
+          <tr>
+            <td><?= $i++ ?></td>
+            <td><?= $out['pigno'] ?></td>
+            <td><?= $out['breed'] ?></td>
+            <td><?= $out['weight'] ?></td>
+            <td><?= $out['buyer'] ?></td>
+            <td><?= number_format($out['price_sold']) ?></td>
+            <td><?= number_format($out['money']) ?></td>
+            <td><?= $out['date_sold'] ?></td>
+          </tr>
+        <?php
+        }
+        ?>
+      </tbody>
+    </table>
+  </div> -->
+
+
+
+  <script>
+    var xValues = ["Pigs", "Quarantine", "Sold", "Breeds", "Vitamins", "Feeds", "Classifications"];
+    var yValues = [<?php echo $pCount;  ?>, <?php echo $quarantine;  ?>, <?php echo $sold;  ?>, <?php echo $bCount;  ?>, <?php echo $vCount;  ?>, <?php echo $fCount;  ?>, <?php echo $cCount;  ?>];
+    var barColors = ["#478ef2", "#478ef2", "#478ef2", "#478ef2", "#478ef2", "#478ef2", "#478ef2", "#478ef2"];
+
+    new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: "Total Records"
+        }
+      }
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $("#table").DataTable();
+    })
+  </script>
 
 </div>
 

@@ -46,7 +46,7 @@
 							<th>Reason</th>
 							<th>Buyer</th>
 							<th>Price</th>
-							<th>Money</th>
+							<th>Cash</th>
 							<th>Feed</th>
 							<th>Date sold</th>
 						</tr>

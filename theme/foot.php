@@ -1,6 +1,6 @@
 
 <p class="text-center dont-print" style="margin-top: 5%">
-	Developed by <a href="https://facebook.com/profile.php?id=1000086533458965">3 - North </a>
+	&copy; All Rights Reserved Chad Rhino Quijano 2024
 </p>
 
 
