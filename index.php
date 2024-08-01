@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row" style="margin-top: 10%">
 
-		<h1 class="text-center"><?php echo NAME_X; ?></h1><br>
+		<h1 class="text-center"><?php echo NAME_X; ?> hello world</h1><br>
    <div class="col-md-2 col-md-offset-2">
      <img src="img/pig.png" class="img img-responsive">
    </div>
